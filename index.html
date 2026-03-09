@@ -1,115 +1,915 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Julie Christensen - Keller Williams Real Estate</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond&family=Jost:wght@300;400;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Cormorant Garamond', serif;
-            color: #1A1A1A;
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            background-color: #CC0000;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-        nav {
-            margin: 10px 0;
-        }
-        nav a {
-            color: white;
-            margin: 0 15px;
-            text-decoration: none;
-        }
-        .hero {
-            background-image: url('hero-image.jpg');
-            height: 300px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-size: 2em;
-        }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 15px;
-            padding: 20px;
-        }
-        footer {
-            text-align: center;
-            padding: 10px;
-            background-color: #1A1A1A;
-            color: white;
-        }
-    </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Julie Christensen | Keller Williams Real Estate</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --kw-red: #CC0000; --kw-red-dark: #A30000;
+  --kw-black: #1A1A1A; --kw-charcoal: #2D2D2D;
+  --kw-white: #FFFFFF; --kw-off-white: #F8F8F8;
+  --kw-light-gray: #EFEFEF; --kw-mid-gray: #C8C8C8;
+  --kw-text-gray: #666666; --kw-border: #E0E0E0;
+}
+html { scroll-behavior: smooth; }
+body { font-family: 'Jost', sans-serif; background: var(--kw-white); color: var(--kw-black); font-weight: 300; line-height: 1.7; overflow-x: hidden; }
+.page { display: none; }
+.page.active { display: block; }
+
+/* NAV */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; align-items: center; justify-content: space-between; padding: 0 60px; height: 72px; background: var(--kw-white); border-bottom: 3px solid var(--kw-red); box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
+.nav-logo { display: flex; align-items: center; gap: 14px; cursor: pointer; white-space: nowrap; }
+.nav-logo-mark { display: flex; }
+.nav-logo-k { background: var(--kw-red); color: white; font-family: 'Jost', sans-serif; font-weight: 600; font-size: 0.85rem; padding: 5px 8px; line-height: 1; letter-spacing: 0.05em; }
+.nav-logo-w { background: var(--kw-black); color: white; font-family: 'Jost', sans-serif; font-weight: 600; font-size: 0.85rem; padding: 5px 8px; line-height: 1; letter-spacing: 0.05em; }
+.nav-logo-name { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 400; color: var(--kw-black); letter-spacing: 0.02em; }
+.nav-logo-name em { font-style: italic; color: var(--kw-red); }
+.nav-center { display: flex; align-items: center; list-style: none; }
+.nav-item { position: relative; }
+.nav-link { display: flex; align-items: center; gap: 5px; padding: 0 18px; height: 72px; font-size: 0.73rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--kw-charcoal); cursor: pointer; transition: color 0.2s; white-space: nowrap; user-select: none; font-weight: 400; }
+.nav-link:hover { color: var(--kw-red); }
+.nav-link svg { width: 10px; height: 10px; transition: transform 0.2s; flex-shrink: 0; }
+.nav-item:hover > .nav-link svg { transform: rotate(180deg); }
+.dropdown { position: absolute; top: 72px; left: 50%; transform: translateX(-50%) translateY(-6px); background: var(--kw-white); border: 1px solid var(--kw-border); border-top: 3px solid var(--kw-red); min-width: 210px; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.2s, transform 0.2s, visibility 0.2s; box-shadow: 0 16px 40px rgba(0,0,0,0.12); }
+.nav-item:hover > .dropdown { opacity: 1; visibility: visible; pointer-events: all; transform: translateX(-50%) translateY(0); }
+.dropdown-item { display: block; padding: 13px 22px; font-size: 0.78rem; letter-spacing: 0.07em; color: var(--kw-charcoal); cursor: pointer; transition: color 0.2s, background 0.2s; border-bottom: 1px solid var(--kw-light-gray); font-weight: 300; }
+.dropdown-item:last-child { border-bottom: none; }
+.dropdown-item:hover { color: var(--kw-red); background: var(--kw-off-white); }
+.nav-cta { background: var(--kw-red); color: white; padding: 11px 26px; font-size: 0.73rem; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; border: none; font-family: 'Jost', sans-serif; font-weight: 400; transition: background 0.25s; white-space: nowrap; }
+.nav-cta:hover { background: var(--kw-red-dark); }
+.hamburger { display: none; flex-direction: column; justify-content: center; align-items: center; gap: 5px; width: 44px; height: 44px; background: none; border: none; cursor: pointer; padding: 4px; z-index: 300; flex-shrink: 0; }
+.hamburger span { display: block; width: 24px; height: 2px; background: var(--kw-black); transition: all 0.3s ease; transform-origin: center; }
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.mobile-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 150; }
+.mobile-overlay.visible { display: block; }
+.mobile-cta-item { display: none; }
+
+/* UTILITIES */
+.eyebrow { font-size: 0.71rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--kw-red); margin-bottom: 20px; display: flex; align-items: center; gap: 14px; font-weight: 400; }
+.eyebrow::before { content: ''; width: 28px; height: 2px; background: var(--kw-red); display: block; flex-shrink: 0; }
+.eyebrow-center { font-size: 0.71rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--kw-red); margin-bottom: 20px; text-align: center; font-weight: 400; }
+.display-heading { font-family: 'Cormorant Garamond', serif; font-weight: 300; line-height: 1.15; color: var(--kw-black); }
+.display-heading em { font-style: italic; color: var(--kw-red); }
+.display-heading-white { font-family: 'Cormorant Garamond', serif; font-weight: 300; line-height: 1.15; color: var(--kw-white); }
+.display-heading-white em { font-style: italic; color: var(--kw-red); }
+.btn-red { display: inline-block; background: var(--kw-red); color: white; padding: 14px 36px; font-family: 'Jost', sans-serif; font-size: 0.73rem; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; border: none; transition: background 0.25s; font-weight: 400; }
+.btn-red:hover { background: var(--kw-red-dark); }
+.btn-outline-dark { display: inline-block; background: transparent; border: 1.5px solid var(--kw-black); color: var(--kw-black); padding: 13px 34px; font-family: 'Jost', sans-serif; font-size: 0.73rem; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; transition: all 0.25s; font-weight: 400; }
+.btn-outline-dark:hover { background: var(--kw-black); color: white; }
+.btn-outline-white { display: inline-block; background: transparent; border: 1.5px solid rgba(255,255,255,0.5); color: white; padding: 13px 34px; font-family: 'Jost', sans-serif; font-size: 0.73rem; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; transition: all 0.25s; font-weight: 400; }
+.btn-outline-white:hover { background: rgba(255,255,255,0.12); border-color: white; }
+.page-wrap { padding-top: 72px; }
+.red-bar { height: 4px; background: var(--kw-red); }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+.page.active > * { animation: fadeUp 0.4s ease both; }
+.page.active > *:nth-child(2) { animation-delay: 0.06s; }
+.page.active > *:nth-child(3) { animation-delay: 0.11s; }
+.page.active > *:nth-child(4) { animation-delay: 0.15s; }
+.page.active > *:nth-child(5) { animation-delay: 0.18s; }
+
+/* FOOTER */
+footer { background: var(--kw-black); padding: 44px 80px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; border-top: 3px solid var(--kw-red); }
+.footer-logo-wrap { display: flex; align-items: center; gap: 12px; }
+.footer-kw-mark { display: flex; }
+.footer-k { background: var(--kw-red); color: white; font-family: 'Jost', sans-serif; font-weight: 600; font-size: 0.75rem; padding: 4px 7px; }
+.footer-w { background: var(--kw-charcoal); color: white; font-family: 'Jost', sans-serif; font-weight: 600; font-size: 0.75rem; padding: 4px 7px; }
+.footer-name { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 300; color: white; }
+.footer-name em { font-style: italic; color: var(--kw-red); }
+.footer-tagline { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.35); }
+.footer-copy { font-size: 0.7rem; color: rgba(255,255,255,0.25); }
+
+/* KW BADGE */
+.kw-badge { display: flex; align-items: center; gap: 10px; margin-top: 24px; }
+.kw-badge-mark { display: flex; }
+.kw-badge-k { background: var(--kw-red); color: white; font-family: 'Jost', sans-serif; font-weight: 600; font-size: 0.72rem; padding: 4px 7px; }
+.kw-badge-w { background: var(--kw-black); color: white; font-family: 'Jost', sans-serif; font-weight: 600; font-size: 0.72rem; padding: 4px 7px; }
+.kw-badge-text { font-size: 0.71rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--kw-text-gray); }
+
+/* HOME */
+.home-hero { display: grid; grid-template-columns: 1fr 1fr; min-height: calc(100vh - 72px); }
+.home-hero-text { display: flex; flex-direction: column; justify-content: center; padding: 80px 70px 80px 80px; background: var(--kw-white); }
+.home-hero-text h1 { font-size: clamp(3rem, 4.5vw, 5.2rem); margin-bottom: 28px; }
+.home-hero-text p { font-size: 1rem; color: var(--kw-text-gray); max-width: 420px; line-height: 1.9; margin-bottom: 44px; }
+.hero-actions { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+.home-hero-visual { background: var(--kw-black); position: relative; overflow: hidden; display: flex; align-items: flex-end; }
+.home-hero-visual::before { content: ''; position: absolute; top: 0; right: 0; width: 100%; height: 100%; background: linear-gradient(135deg, transparent 65%, var(--kw-red) 65%, var(--kw-red) 68%, transparent 68%); z-index: 1; opacity: 0.5; }
+.home-hero-visual::after { content: ''; position: absolute; inset: 0; background: linear-gradient(160deg, #3a3a3a 0%, #1a1a1a 100%); }
+.hero-visual-content { position: relative; z-index: 2; width: 100%; padding: 48px; }
+.hero-stat-card { background: var(--kw-white); padding: 28px 32px; display: inline-block; }
+.hero-stat-card .num { font-family: 'Cormorant Garamond', serif; font-size: 3.2rem; font-weight: 300; color: var(--kw-red); line-height: 1; }
+.hero-stat-card .lbl { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--kw-text-gray); margin-top: 6px; font-weight: 400; }
+.hero-market-badge { position: absolute; top: 40px; right: 0; z-index: 3; background: var(--kw-red); color: white; padding: 12px 24px; font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 400; }
+.hero-tagline { position: absolute; top: 40px; left: 48px; z-index: 3; font-family: 'Cormorant Garamond', serif; font-size: 2.4rem; font-style: italic; font-weight: 300; color: rgba(255,255,255,0.15); line-height: 1.2; pointer-events: none; }
+.markets-banner { background: var(--kw-black); padding: 60px 80px; display: flex; align-items: center; justify-content: space-between; gap: 60px; }
+.markets-banner h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.8rem, 2.5vw, 2.6rem); font-weight: 300; color: var(--kw-white); }
+.markets-banner h2 em { font-style: italic; color: var(--kw-red); }
+.markets-banner-right { display: flex; gap: 2px; flex-shrink: 0; }
+.market-pill { background: rgba(255,255,255,0.05); padding: 26px 42px; text-align: center; transition: background 0.25s; cursor: pointer; border-top: 3px solid transparent; }
+.market-pill:hover { background: rgba(204,0,0,0.15); border-top-color: var(--kw-red); }
+.market-pill h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 400; color: white; margin-bottom: 6px; }
+.market-pill p { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.45); }
+.home-about { padding: 120px 80px; display: grid; grid-template-columns: 5fr 7fr; gap: 90px; align-items: center; }
+.about-photo-wrap { position: relative; }
+.about-photo { aspect-ratio: 3/4; background: var(--kw-light-gray); position: relative; overflow: hidden; }
+.about-photo::before { content: ''; position: absolute; inset: 0; background: linear-gradient(160deg, #e8e8e8 0%, #c0c0c0 100%); }
+.about-photo::after { content: 'JULIE CHRISTENSEN'; position: absolute; bottom: 0; left: 0; right: 0; background: var(--kw-red); color: white; font-size: 0.65rem; letter-spacing: 0.2em; text-align: center; padding: 10px 14px; font-weight: 400; }
+.about-photo-accent { position: absolute; bottom: -16px; right: -16px; width: 55%; aspect-ratio: 1; background: var(--kw-light-gray); z-index: -1; }
+.home-about-text h2 { font-size: clamp(2rem, 2.8vw, 3rem); margin-bottom: 24px; }
+.home-about-text p { font-size: 0.95rem; color: var(--kw-text-gray); line-height: 1.9; margin-bottom: 16px; }
+.mini-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--kw-border); margin-top: 44px; border: 1px solid var(--kw-border); }
+.mini-stat { background: var(--kw-white); padding: 24px 20px; }
+.mini-stat .n { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: 300; color: var(--kw-red); line-height: 1; }
+.mini-stat .l { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--kw-text-gray); margin-top: 5px; }
+.why-section { background: var(--kw-off-white); padding: 100px 80px; }
+.why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 60px; }
+.why-card { background: var(--kw-white); padding: 48px 36px; border-top: 3px solid transparent; transition: border-color 0.25s; }
+.why-card:hover { border-top-color: var(--kw-red); }
+.why-n { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 300; color: var(--kw-light-gray); line-height: 1; margin-bottom: 18px; }
+.why-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 400; color: var(--kw-black); margin-bottom: 12px; }
+.why-card p { font-size: 0.88rem; color: var(--kw-text-gray); line-height: 1.85; }
+.testimonials-section { background: var(--kw-black); padding: 100px 80px; }
+.testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 56px; }
+.t-card { background: rgba(255,255,255,0.04); padding: 44px 36px; border-bottom: 3px solid transparent; transition: border-color 0.25s; }
+.t-card:hover { border-bottom-color: var(--kw-red); }
+.t-quote { font-family: 'Cormorant Garamond', serif; font-size: 3.5rem; color: var(--kw-red); line-height: 1; margin-bottom: 8px; }
+.t-card p { font-family: 'Cormorant Garamond', serif; font-size: 1.12rem; font-style: italic; color: rgba(255,255,255,0.85); line-height: 1.75; margin-bottom: 24px; }
+.t-author { font-size: 0.73rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.45); }
+.t-loc { font-size: 0.7rem; color: rgba(204,0,0,0.7); margin-top: 4px; }
+.home-cta { padding: 120px 80px; text-align: center; }
+.home-cta h2 { font-size: clamp(2.2rem, 3.5vw, 4rem); margin-bottom: 16px; }
+.home-cta p { font-size: 1rem; color: var(--kw-text-gray); max-width: 500px; margin: 0 auto 44px; line-height: 1.85; }
+.home-cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+/* INTERIOR PAGES */
+.interior-hero { background: var(--kw-black); padding: 100px 80px 90px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: end; position: relative; overflow: hidden; }
+.interior-hero::after { content: ''; position: absolute; top: 0; right: 0; bottom: 0; width: 4px; background: var(--kw-red); }
+.interior-hero-eyebrow { font-size: 0.71rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--kw-red); margin-bottom: 20px; font-weight: 400; }
+.interior-hero h1 { font-size: clamp(2.8rem, 4vw, 5rem); color: var(--kw-white); margin-bottom: 20px; }
+.interior-hero h1 em { font-style: italic; color: var(--kw-red); }
+.interior-hero-sub { font-size: 0.95rem; color: rgba(255,255,255,0.55); line-height: 1.9; }
+.hero-feature-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+.hero-feature-list li { display: flex; align-items: flex-start; gap: 14px; font-size: 0.88rem; color: rgba(255,255,255,0.75); }
+.hero-feature-list li::before { content: ''; width: 18px; height: 2px; background: var(--kw-red); flex-shrink: 0; margin-top: 10px; }
+.content-section { padding: 100px 80px; }
+.content-section-alt { padding: 100px 80px; background: var(--kw-off-white); }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+.two-col-center { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.section-h2 { font-size: clamp(2rem, 2.8vw, 3rem); margin-bottom: 24px; }
+.section-p { font-size: 0.95rem; color: var(--kw-text-gray); line-height: 1.9; margin-bottom: 16px; }
+.process-steps-v { display: flex; flex-direction: column; border-left: 2px solid var(--kw-red); }
+.vstep { padding: 28px 0 28px 36px; border-bottom: 1px solid var(--kw-border); position: relative; }
+.vstep:last-child { border-bottom: none; }
+.vstep::before { content: ''; position: absolute; left: -5px; top: 36px; width: 8px; height: 8px; border-radius: 50%; background: var(--kw-red); }
+.vstep-num { font-family: 'Cormorant Garamond', serif; font-size: 0.85rem; font-style: italic; color: var(--kw-red); margin-bottom: 8px; }
+.vstep h3 { font-size: 1rem; font-weight: 500; color: var(--kw-black); margin-bottom: 8px; }
+.vstep p { font-size: 0.87rem; color: var(--kw-text-gray); line-height: 1.8; }
+.service-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; margin-top: 48px; }
+.service-card { background: var(--kw-white); padding: 36px 30px; border: 1px solid var(--kw-border); border-top: 3px solid transparent; transition: border-top-color 0.25s; }
+.service-card:hover { border-top-color: var(--kw-red); }
+.service-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: var(--kw-black); margin-bottom: 10px; }
+.service-card p { font-size: 0.86rem; color: var(--kw-text-gray); line-height: 1.8; }
+.buying-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; margin-top: 60px; }
+.b-step { padding: 44px 28px; border: 1px solid var(--kw-border); transition: border-color 0.25s; }
+.b-step:hover { border-color: var(--kw-red); }
+.b-step-num { font-family: 'Cormorant Garamond', serif; font-size: 2.8rem; font-weight: 300; color: var(--kw-red); line-height: 1; margin-bottom: 18px; }
+.b-step h3 { font-size: 0.93rem; font-weight: 500; color: var(--kw-black); margin-bottom: 10px; }
+.b-step p { font-size: 0.85rem; color: var(--kw-text-gray); line-height: 1.8; }
+.resource-list { display: flex; flex-direction: column; }
+.resource-item { display: flex; align-items: center; justify-content: space-between; padding: 18px 22px; background: var(--kw-white); font-size: 0.88rem; color: var(--kw-black); border-bottom: 1px solid var(--kw-border); cursor: pointer; transition: all 0.2s; }
+.resource-item:hover { background: var(--kw-red); color: white; }
+.resource-item:hover span { color: white; }
+.resource-item span { color: var(--kw-red); transition: color 0.2s; }
+
+/* PROPERTIES */
+.properties-hero { background: var(--kw-black); padding: 110px 80px 80px; text-align: center; position: relative; overflow: hidden; }
+.properties-hero::before { content: 'KW'; position: absolute; right: 60px; top: 50%; transform: translateY(-50%); font-family: 'Jost', sans-serif; font-weight: 600; font-size: 14rem; color: rgba(255,255,255,0.025); line-height: 1; pointer-events: none; letter-spacing: -0.05em; }
+.properties-hero h1 { font-size: clamp(2.8rem, 4vw, 5rem); color: var(--kw-white); margin-bottom: 16px; }
+.properties-hero h1 em { font-style: italic; color: var(--kw-red); }
+.properties-hero p { font-size: 0.97rem; color: rgba(255,255,255,0.55); max-width: 480px; margin: 0 auto 44px; line-height: 1.85; }
+.prop-section { padding: 80px; }
+.prop-intro { margin-bottom: 52px; }
+.prop-intro h2 { font-size: clamp(1.8rem, 2.5vw, 2.6rem); margin-bottom: 14px; }
+.prop-intro p { font-size: 0.95rem; color: var(--kw-text-gray); max-width: 600px; line-height: 1.85; }
+.area-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+.area-info-card { background: var(--kw-off-white); padding: 44px 40px; border-top: 3px solid var(--kw-red); }
+.area-info-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 400; color: var(--kw-black); margin-bottom: 12px; }
+.area-info-card p { font-size: 0.88rem; color: var(--kw-text-gray); line-height: 1.85; margin-bottom: 18px; }
+.area-highlights { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.area-highlights li { display: flex; align-items: flex-start; gap: 10px; font-size: 0.84rem; color: var(--kw-charcoal); }
+.area-highlights li::before { content: ''; width: 14px; height: 2px; background: var(--kw-red); flex-shrink: 0; margin-top: 10px; }
+
+/* IDX PLACEHOLDER */
+.idx-placeholder { border: 2px dashed var(--kw-mid-gray); background: var(--kw-off-white); padding: 60px 48px; text-align: center; margin-bottom: 60px; }
+.idx-placeholder-icon { width: 52px; height: 52px; margin: 0 auto 20px; color: var(--kw-mid-gray); }
+.idx-placeholder-icon svg { width: 100%; height: 100%; }
+.idx-placeholder h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 400; color: var(--kw-black); margin-bottom: 12px; }
+.idx-placeholder p { font-size: 0.9rem; color: var(--kw-text-gray); max-width: 520px; margin: 0 auto 32px; line-height: 1.85; }
+.idx-steps { display: flex; flex-direction: column; gap: 10px; max-width: 400px; margin: 0 auto 36px; text-align: left; }
+.idx-step { display: flex; align-items: flex-start; gap: 14px; font-size: 0.87rem; color: var(--kw-charcoal); }
+.idx-step-num { background: var(--kw-red); color: white; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 500; flex-shrink: 0; margin-top: 1px; }
+
+/* ABOUT */
+.about-hero { display: grid; grid-template-columns: 5fr 7fr; min-height: calc(100vh - 72px); }
+.about-hero-img { background: linear-gradient(160deg, #c0c0c0 0%, #888 100%); position: relative; display: flex; align-items: flex-end; overflow: hidden; }
+.about-name-overlay { padding: 44px; background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%); width: 100%; }
+.about-name-overlay h2 { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: 300; color: white; line-height: 1.1; margin-bottom: 8px; }
+.about-name-overlay span { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+.about-hero-text { padding: 100px 70px 80px 80px; display: flex; flex-direction: column; justify-content: center; }
+.about-hero-text h1 { font-size: clamp(2rem, 3vw, 3.4rem); margin-bottom: 28px; }
+.about-hero-text p { font-size: 0.95rem; color: var(--kw-text-gray); line-height: 1.9; margin-bottom: 16px; }
+.about-values { padding: 100px 80px; background: var(--kw-off-white); }
+.values-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; margin-top: 52px; }
+.value-card { background: var(--kw-white); padding: 40px 30px; border-top: 3px solid transparent; transition: border-color 0.25s; }
+.value-card:hover { border-top-color: var(--kw-red); }
+.value-icon { width: 36px; height: 36px; margin-bottom: 18px; }
+.value-icon svg { width: 100%; height: 100%; stroke: var(--kw-red); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.value-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 400; color: var(--kw-black); margin-bottom: 10px; }
+.value-card p { font-size: 0.86rem; color: var(--kw-text-gray); line-height: 1.8; }
+
+/* TEAM */
+.team-hero { background: var(--kw-black); padding: 110px 80px 80px; text-align: center; position: relative; overflow: hidden; }
+.team-hero::after { content: 'KW'; position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); font-family: 'Jost', sans-serif; font-weight: 600; font-size: 16rem; color: rgba(255,255,255,0.025); pointer-events: none; white-space: nowrap; }
+.team-hero h1 { font-size: clamp(2.8rem, 4vw, 5rem); color: var(--kw-white); margin-bottom: 16px; position: relative; z-index: 1; }
+.team-hero h1 em { font-style: italic; color: var(--kw-red); }
+.team-hero p { font-size: 0.97rem; color: rgba(255,255,255,0.55); max-width: 500px; margin: 0 auto; line-height: 1.85; position: relative; z-index: 1; }
+.team-section { padding: 80px; }
+.team-lead { display: grid; grid-template-columns: 220px 1fr; gap: 52px; align-items: start; margin-bottom: 80px; padding-bottom: 72px; border-bottom: 1px solid var(--kw-border); }
+.team-lead-photo { aspect-ratio: 3/4; background: linear-gradient(160deg, #d0d0d0, #a0a0a0); }
+.team-lead-text h2 { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 300; color: var(--kw-black); margin-bottom: 8px; }
+.team-role { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--kw-red); display: block; margin-bottom: 20px; }
+.team-lead-text p { font-size: 0.93rem; color: var(--kw-text-gray); line-height: 1.9; margin-bottom: 14px; }
+.team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+.team-card { background: var(--kw-off-white); overflow: hidden; }
+.team-card-photo { aspect-ratio: 1; }
+.tcp-1 { background: linear-gradient(145deg, #d0d0d0, #b0b0b0); }
+.tcp-2 { background: linear-gradient(145deg, #c8c8c8, #a8a8a8); }
+.tcp-3 { background: linear-gradient(145deg, #c0c0c0, #a0a0a0); }
+.team-card-info { padding: 24px 22px; }
+.team-card-info h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 400; color: var(--kw-black); margin-bottom: 4px; }
+.team-card-info p { font-size: 0.85rem; color: var(--kw-text-gray); line-height: 1.8; margin-top: 10px; }
+
+/* CONTACT */
+.contact-hero { background: var(--kw-black); padding: 110px 80px 80px; border-bottom: 3px solid var(--kw-red); }
+.contact-hero h1 { font-size: clamp(2.8rem, 4vw, 5rem); color: var(--kw-white); margin-bottom: 16px; }
+.contact-hero h1 em { font-style: italic; color: var(--kw-red); }
+.contact-hero p { font-size: 0.97rem; color: rgba(255,255,255,0.55); max-width: 500px; line-height: 1.85; }
+.contact-body { display: grid; grid-template-columns: 5fr 7fr; }
+.contact-sidebar { background: var(--kw-off-white); padding: 80px 60px; border-right: 1px solid var(--kw-border); }
+.contact-sidebar h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 300; color: var(--kw-black); margin-bottom: 36px; }
+.contact-details { display: flex; flex-direction: column; gap: 28px; }
+.contact-detail { display: flex; gap: 16px; align-items: flex-start; }
+.c-icon { width: 34px; height: 34px; background: var(--kw-red); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.c-icon svg { width: 14px; height: 14px; stroke: white; fill: none; stroke-width: 1.5; }
+.c-label { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--kw-text-gray); margin-bottom: 3px; font-weight: 400; }
+.c-val { font-size: 0.95rem; color: var(--kw-black); }
+.c-val a { color: var(--kw-black); text-decoration: none; transition: color 0.2s; }
+.c-val a:hover { color: var(--kw-red); }
+.offices { margin-top: 52px; padding-top: 36px; border-top: 1px solid var(--kw-border); }
+.offices h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--kw-black); margin-bottom: 20px; }
+.office { margin-bottom: 22px; }
+.office-name { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--kw-red); margin-bottom: 4px; font-weight: 400; }
+.office-addr { font-size: 0.87rem; color: var(--kw-text-gray); line-height: 1.65; }
+.contact-form-area { padding: 80px 70px; }
+.contact-form-area h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 300; color: var(--kw-black); margin-bottom: 36px; }
+.cf { display: flex; flex-direction: column; gap: 20px; }
+.cf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.cf-group { display: flex; flex-direction: column; gap: 8px; }
+.cf-group label { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--kw-text-gray); font-weight: 400; }
+.cf-group input, .cf-group select, .cf-group textarea { background: var(--kw-off-white); border: 1px solid var(--kw-border); padding: 13px 16px; font-family: 'Jost', sans-serif; font-size: 0.9rem; color: var(--kw-black); font-weight: 300; outline: none; transition: border-color 0.2s; resize: none; appearance: none; }
+.cf-group input:focus, .cf-group select:focus, .cf-group textarea:focus { border-color: var(--kw-red); }
+.cf-group textarea { height: 130px; }
+
+/* MOBILE */
+@media (max-width: 900px) {
+  nav { padding: 0 20px; }
+  .hamburger { display: flex; }
+  .nav-cta { display: none; }
+  .mobile-cta-item { display: block; }
+  .nav-center { display: flex; flex-direction: column; position: fixed; top: 72px; right: 0; bottom: 0; width: min(320px, 85vw); background: var(--kw-white); border-left: 3px solid var(--kw-red); padding: 16px 0 40px; overflow-y: auto; transform: translateX(100%); transition: transform 0.3s ease; z-index: 200; box-shadow: -8px 0 32px rgba(0,0,0,0.12); gap: 0; align-items: stretch; height: auto; }
+  .nav-center.open { transform: translateX(0); }
+  .nav-item { width: 100%; }
+  .nav-link { height: auto; padding: 16px 24px; font-size: 0.82rem; border-bottom: 1px solid var(--kw-light-gray); justify-content: space-between; width: 100%; }
+  .nav-item:hover > .dropdown { opacity: 0; visibility: hidden; pointer-events: none; transform: translateX(-50%) translateY(-6px); }
+  .mobile-accordion .dropdown { position: static; transform: none; opacity: 1; visibility: visible; pointer-events: all; box-shadow: none; border: none; border-top: none; min-width: 0; background: var(--kw-off-white); display: none; width: 100%; }
+  .mobile-accordion.accordion-open .dropdown { display: block; }
+  .mobile-accordion .dropdown-item { padding: 13px 24px 13px 36px; border-bottom: 1px solid var(--kw-light-gray); }
+  .mobile-accordion .nav-link svg { transition: transform 0.25s; }
+  .mobile-accordion.accordion-open .nav-link svg { transform: rotate(180deg); }
+  .mobile-cta-item { padding: 20px 24px; border-bottom: none; }
+  .home-hero { grid-template-columns: 1fr; min-height: auto; }
+  .home-hero-text { padding: 52px 24px 44px; }
+  .home-hero-text h1 { font-size: clamp(2.4rem, 10vw, 3.4rem); }
+  .home-hero-text p { max-width: 100%; margin-bottom: 32px; }
+  .home-hero-visual { min-height: 260px; }
+  .hero-tagline { font-size: 1.5rem; top: 20px; left: 20px; }
+  .hero-market-badge { top: 20px; font-size: 0.6rem; padding: 9px 14px; }
+  .hero-visual-content { padding: 24px; }
+  .hero-stat-card { padding: 18px 22px; }
+  .hero-stat-card .num { font-size: 2.2rem; }
+  .hero-actions { flex-direction: column; gap: 10px; }
+  .hero-actions .btn-red, .hero-actions .btn-outline-dark { text-align: center; width: 100%; padding: 16px; }
+  .markets-banner { flex-direction: column; gap: 28px; padding: 44px 24px; }
+  .markets-banner-right { width: 100%; }
+  .market-pill { flex: 1; padding: 18px 12px; }
+  .home-about { grid-template-columns: 1fr; padding: 56px 24px; gap: 36px; }
+  .about-photo { aspect-ratio: 4/3; }
+  .about-photo-accent { display: none; }
+  .why-section { padding: 56px 24px; }
+  .why-grid { grid-template-columns: 1fr; }
+  .why-card { padding: 30px 24px; }
+  .testimonials-section { padding: 56px 24px; }
+  .testimonials-grid { grid-template-columns: 1fr; }
+  .t-card { padding: 30px 24px; }
+  .home-cta { padding: 56px 24px; }
+  .home-cta-btns { flex-direction: column; gap: 10px; }
+  .home-cta-btns .btn-red, .home-cta-btns .btn-outline-dark { text-align: center; width: 100%; padding: 16px; }
+  .interior-hero { grid-template-columns: 1fr; gap: 36px; padding: 52px 24px 44px; }
+  .interior-hero::after { display: none; }
+  .interior-hero h1 { font-size: clamp(2.2rem, 9vw, 3.2rem); }
+  .content-section, .content-section-alt { padding: 52px 24px; }
+  .two-col, .two-col-center { grid-template-columns: 1fr; gap: 40px; }
+  .section-h2 { font-size: clamp(1.8rem, 7vw, 2.4rem); }
+  .vstep { padding: 22px 0 22px 26px; }
+  .service-cards { grid-template-columns: 1fr; }
+  .buying-steps { grid-template-columns: 1fr 1fr; }
+  .b-step { padding: 26px 18px; }
+  .properties-hero { padding: 56px 24px 44px; }
+  .properties-hero::before { display: none; }
+  .properties-hero h1 { font-size: clamp(2.2rem, 9vw, 3.2rem); }
+  .properties-hero p { margin-bottom: 32px; }
+  .prop-section { padding: 44px 24px; }
+  .area-info-grid { grid-template-columns: 1fr; margin-top: 40px; }
+  .area-info-card { padding: 36px 24px; }
+  .idx-placeholder { padding: 40px 24px; }
+  .about-hero { grid-template-columns: 1fr; min-height: auto; }
+  .about-hero-img { min-height: 300px; }
+  .about-name-overlay { padding: 24px 24px; }
+  .about-name-overlay h2 { font-size: 1.6rem; }
+  .about-hero-text { padding: 48px 24px; }
+  .about-hero-text h1 { font-size: clamp(1.9rem, 7vw, 2.6rem); }
+  .about-values { padding: 52px 24px; }
+  .values-grid { grid-template-columns: 1fr 1fr; gap: 2px; }
+  .team-hero { padding: 56px 24px 44px; }
+  .team-hero::after { display: none; }
+  .team-section { padding: 52px 24px; }
+  .team-lead { grid-template-columns: 1fr; gap: 28px; }
+  .team-lead-photo { max-width: 200px; }
+  .team-grid { grid-template-columns: 1fr; }
+  .contact-hero { padding: 56px 24px 40px; }
+  .contact-hero h1 { font-size: clamp(2.2rem, 9vw, 3.2rem); }
+  .contact-body { grid-template-columns: 1fr; }
+  .contact-sidebar { padding: 44px 24px; border-right: none; border-bottom: 1px solid var(--kw-border); }
+  .contact-form-area { padding: 44px 24px; }
+  .cf-row { grid-template-columns: 1fr; }
+  footer { padding: 32px 24px; flex-direction: column; align-items: flex-start; gap: 10px; }
+  .btn-red, .btn-outline-dark, .btn-outline-white { min-height: 48px; display: flex; align-items: center; justify-content: center; }
+  .resource-item { min-height: 52px; }
+  .dropdown-item { min-height: 48px; display: flex; align-items: center; }
+}
+@media (max-width: 480px) {
+  nav { padding: 0 16px; }
+  .nav-logo-name { font-size: 1rem; }
+  .mini-stats { grid-template-columns: 1fr 1fr; }
+  .buying-steps { grid-template-columns: 1fr; }
+  .values-grid { grid-template-columns: 1fr; }
+  .markets-banner-right { flex-direction: column; }
+  .market-pill { padding: 18px 20px; }
+  .properties-hero div[style] { flex-direction: column; }
+  .properties-hero .btn-red, .properties-hero .btn-outline-white { width: 100%; text-align: center; justify-content: center; }
+}
+</style>
 </head>
 <body>
-    <header>
-        <h1>Julie Christensen</h1>
-        <nav>
-            <a href="#home">Home</a>
-            <a href="#selling">Selling</a>
-            <a href="#buying">Buying</a>
-            <a href="#properties">Properties</a>
-            <a href="#about">About Julie</a>
-            <a href="#team">Meet the Team</a>
-            <a href="#contact">Contact</a>
-        </nav>
-    </header>
-    <div class="hero" id="home">
-        <h2>Your Dream Home Awaits</h2>
+<!-- NAV -->
+<nav>
+  <div class="nav-logo" onclick="showPage('home')">
+    <div class="nav-logo-mark"><span class="nav-logo-k">K</span><span class="nav-logo-w">W</span></div>
+    <span class="nav-logo-name"><em>Julie</em> Christensen</span>
+  </div>
+  <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-center" id="nav-center">
+    <li class="nav-item"><div class="nav-link" onclick="showPage('home');closeMobileMenu()">Home</div></li>
+    <li class="nav-item"><div class="nav-link" onclick="showPage('selling');closeMobileMenu()">Selling</div></li>
+    <li class="nav-item"><div class="nav-link" onclick="showPage('buying');closeMobileMenu()">Buying</div></li>
+    <li class="nav-item mobile-accordion">
+      <div class="nav-link" onclick="toggleAccordion(this)">Properties <svg viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="dropdown">
+        <div class="dropdown-item" onclick="showPage('properties-chico');closeMobileMenu()">Chico, CA</div>
+        <div class="dropdown-item" onclick="showPage('properties-trivalley');closeMobileMenu()">Tri-Valley Area</div>
+      </div>
+    </li>
+    <li class="nav-item mobile-accordion">
+      <div class="nav-link" onclick="toggleAccordion(this)">About <svg viewBox="0 0 10 6"><path d="M1 1l4 4 4-4" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="dropdown">
+        <div class="dropdown-item" onclick="showPage('about-julie');closeMobileMenu()">About Julie</div>
+        <div class="dropdown-item" onclick="showPage('meet-team');closeMobileMenu()">Meet the Team</div>
+      </div>
+    </li>
+    <li class="nav-item"><div class="nav-link" onclick="showPage('contact');closeMobileMenu()">Contact Us</div></li>
+    <li class="nav-item mobile-cta-item"><button class="btn-red" onclick="showPage('contact');closeMobileMenu()">Let's Talk</button></li>
+  </ul>
+  <button class="nav-cta" onclick="showPage('contact')">Let's Talk</button>
+</nav>
+<div class="mobile-overlay" id="mobile-overlay" onclick="closeMobileMenu()"></div>
+<!-- HOME -->
+<div id="page-home" class="page active page-wrap">
+  <section class="home-hero">
+    <div class="home-hero-text">
+      <div class="eyebrow">Keller Williams Real Estate</div>
+      <h1 class="display-heading">Your Home.<br><em>Your Story.</em><br>Your Agent.</h1>
+      <p>Serving buyers and sellers across Chico, CA and the Tri-Valley with honest guidance, local expertise, and results you can count on.</p>
+      <div class="hero-actions">
+        <button class="btn-red" onclick="showPage('selling')">Sell Your Home</button>
+        <button class="btn-outline-dark" onclick="showPage('buying')">Start Buying</button>
+      </div>
     </div>
-    <section class="testimonials">
-        <h2>Testimonials</h2>
-        <p>Client testimonial 1...</p>
-        <p>Client testimonial 2...</p>
-    </section>
-    <section id="selling">
-        <h2>Selling</h2>
-        <p>Information about selling...</p>
-    </section>
-    <section id="buying">
-        <h2>Buying</h2>
-        <p>Information about buying...</p>
-    </section>
-    <section id="properties">
-        <h2>Properties</h2>
-        <div class="grid">
-            <div>Property 1</div>
-            <div>Property 2</div>
-            <div>Chico, CA Property</div>
-            <div>Tri-Valley Area Property</div>
+    <div class="home-hero-visual">
+      <div class="hero-market-badge">Chico &middot; Tri-Valley</div>
+      <div class="hero-tagline">Find Your<br>Place.</div>
+      <div class="hero-visual-content">
+        <div class="hero-stat-card"><div class="num">250+</div><div class="lbl">Families Served</div></div>
+      </div>
+    </div>
+  </section>
+  <div class="red-bar"></div>
+  <section class="markets-banner">
+    <div>
+      <div class="eyebrow" style="color:var(--kw-red)">Service Areas</div>
+      <h2>Two markets, <em>one trusted agent.</em></h2>
+    </div>
+    <div class="markets-banner-right">
+      <div class="market-pill" onclick="showPage('properties-chico')"><h3>Chico, CA</h3><p>Butte County</p></div>
+      <div class="market-pill" onclick="showPage('properties-trivalley')"><h3>Tri-Valley</h3><p>Dublin &middot; Pleasanton &middot; Livermore</p></div>
+    </div>
+  </section>
+  <section class="home-about">
+    <div class="about-photo-wrap">
+      <div class="about-photo"></div>
+      <div class="about-photo-accent"></div>
+      <div class="kw-badge"><div class="kw-badge-mark"><span class="kw-badge-k">K</span><span class="kw-badge-w">W</span></div><span class="kw-badge-text">Keller Williams Realty</span></div>
+    </div>
+    <div class="home-about-text">
+      <div class="eyebrow">Meet Julie</div>
+      <h2 class="display-heading section-h2">Real estate with <em>real care</em></h2>
+      <p>With deep roots in both the Chico community and the Bay Area's Tri-Valley corridor, Julie Christensen brings a rare dual-market perspective to every client relationship. She understands that buying or selling a home is one of life's most significant decisions — and she treats it that way.</p>
+      <p>As a proud Keller Williams agent, Julie combines world-class resources with a deeply personal approach. She's not just closing deals — she's helping families find the places where their lives unfold.</p>
+      <button class="btn-outline-dark" onclick="showPage('about-julie')" style="margin-top:12px">More About Julie</button>
+      <div class="mini-stats">
+        <div class="mini-stat"><div class="n">250+</div><div class="l">Homes Sold</div></div>
+        <div class="mini-stat"><div class="n">12+</div><div class="l">Years Experience</div></div>
+        <div class="mini-stat"><div class="n">2</div><div class="l">Markets Served</div></div>
+      </div>
+    </div>
+  </section>
+  <section class="why-section">
+    <div class="eyebrow-center">Why Choose Julie</div>
+    <h2 class="display-heading" style="font-size:clamp(2rem,3vw,3rem);text-align:center">What sets her apart</h2>
+    <div class="why-grid">
+      <div class="why-card"><div class="why-n">01</div><h3>Local Market Expertise</h3><p>Julie knows the neighborhoods, price trends, school districts, and hidden gems — in both Chico and the Tri-Valley. That local knowledge is your advantage at every stage.</p></div>
+      <div class="why-card"><div class="why-n">02</div><h3>Honest Communication</h3><p>No fluff, no pressure. Julie gives you the full picture — the good and the complicated — so you can make confident decisions at every step of the process.</p></div>
+      <div class="why-card"><div class="why-n">03</div><h3>Keller Williams Network</h3><p>As a KW agent, Julie has access to one of the most powerful real estate networks in the country — cutting-edge tools, wide marketing reach, and a global referral base.</p></div>
+    </div>
+  </section>
+  <section class="testimonials-section">
+    <div class="eyebrow" style="color:var(--kw-red)">Client Stories</div>
+    <div class="testimonials-grid">
+      <div class="t-card"><div class="t-quote">"</div><p>Julie made selling our Chico home feel effortless. She priced it perfectly, and we had multiple offers within days. We couldn't be more grateful.</p><div class="t-author">Marcus &amp; Diane R.</div><div class="t-loc">Chico, CA</div></div>
+      <div class="t-card"><div class="t-quote">"</div><p>As first-time buyers in Pleasanton, we were nervous. Julie walked us through every step and found us a home we absolutely love. She's amazing.</p><div class="t-author">Priya &amp; Rohan K.</div><div class="t-loc">Pleasanton, CA</div></div>
+      <div class="t-card"><div class="t-quote">"</div><p>Julie is the rare agent who actually listens. She found us exactly what we were looking for — and negotiated a price better than we expected.</p><div class="t-author">Tom W.</div><div class="t-loc">Dublin, CA</div></div>
+    </div>
+  </section>
+  <section class="home-cta">
+    <div class="eyebrow-center">Ready to Start?</div>
+    <h2 class="display-heading">Let's find your <em>next chapter.</em></h2>
+    <p>Whether you're buying your first home, selling after decades, or relocating between markets — Julie is ready to guide you every step of the way.</p>
+    <div class="home-cta-btns">
+      <button class="btn-red" onclick="showPage('contact')">Contact Julie</button>
+      <button class="btn-outline-dark" onclick="showPage('properties-chico')">Browse Listings</button>
+    </div>
+  </section>
+  <footer>
+    <div class="footer-logo-wrap"><div class="footer-kw-mark"><span class="footer-k">K</span><span class="footer-w">W</span></div><span class="footer-name"><em>Julie</em> Christensen</span></div>
+    <div class="footer-tagline">Keller Williams Realty</div>
+    <div class="footer-copy">&copy; 2025 Julie Christensen. All rights reserved.</div>
+  </footer>
+</div>
+
+<!-- SELLING -->
+<div id="page-selling" class="page page-wrap">
+  <section class="interior-hero">
+    <div>
+      <div class="interior-hero-eyebrow">Selling Your Home</div>
+      <h1 class="display-heading-white">Sell smarter.<br><em>Move forward.</em></h1>
+      <p class="interior-hero-sub">Julie's proven approach maximizes your home's value and minimizes your stress — from the first conversation to closing day.</p>
+    </div>
+    <div>
+      <ul class="hero-feature-list">
+        <li>Strategic pricing to attract serious buyers</li>
+        <li>Professional photography &amp; staging guidance</li>
+        <li>Full MLS exposure + KW network marketing</li>
+        <li>Expert negotiation on your behalf</li>
+        <li>Smooth, transparent transaction management</li>
+      </ul>
+    </div>
+  </section>
+  <div class="red-bar"></div>
+  <section class="content-section">
+    <div class="two-col-center">
+      <div>
+        <div class="eyebrow">The Process</div>
+        <h2 class="display-heading section-h2">How Julie gets<br><em>your home sold</em></h2>
+        <p class="section-p">Every home is different — and so is every selling strategy. Julie takes time to understand your property, your goals, and your timeline before building a plan designed specifically around you.</p>
+        <p class="section-p">With access to Keller Williams' world-class tools and her own deep market knowledge across Chico and Tri-Valley, Julie creates maximum exposure and drives the right buyers to your door.</p>
+      </div>
+      <div class="process-steps-v">
+        <div class="vstep"><div class="vstep-num">Step one</div><h3>Free Home Valuation</h3><p>Julie conducts a thorough Comparative Market Analysis to establish the right listing price — one that attracts buyers and reflects your home's true value.</p></div>
+        <div class="vstep"><div class="vstep-num">Step two</div><h3>Prepare &amp; Stage</h3><p>Julie advises on cost-effective improvements and staging strategies that make your home shine in photos and in person.</p></div>
+        <div class="vstep"><div class="vstep-num">Step three</div><h3>Market &amp; List</h3><p>Your home goes live on MLS with professional photography, targeted social campaigns, and the full reach of the Keller Williams network.</p></div>
+        <div class="vstep"><div class="vstep-num">Step four</div><h3>Negotiate &amp; Close</h3><p>Julie reviews every offer with you in plain language, negotiates firmly on your behalf, and guides you through inspections and closing without surprises.</p></div>
+      </div>
+    </div>
+  </section>
+  <section class="content-section-alt">
+    <div class="eyebrow">What You Get</div>
+    <h2 class="display-heading section-h2" style="max-width:500px">Full-service listing, <em>start to finish</em></h2>
+    <div class="service-cards">
+      <div class="service-card"><h3>Professional Photography</h3><p>First impressions happen online. Julie coordinates high-quality photography that showcases your home in its best light and stops buyers mid-scroll.</p></div>
+      <div class="service-card"><h3>Targeted Digital Marketing</h3><p>Your listing reaches buyers through MLS, Zillow, Realtor.com, social media, and the KW network — locally and nationally.</p></div>
+      <div class="service-card"><h3>Open Houses &amp; Private Showings</h3><p>Julie manages all showing logistics, coordinates open houses, and provides regular feedback so you always know how the market is responding.</p></div>
+      <div class="service-card"><h3>Transaction Management</h3><p>From accepted offer to closed escrow, Julie handles the details — timelines, disclosures, inspections, and contingencies — so nothing falls through the cracks.</p></div>
+    </div>
+  </section>
+  <section style="padding:80px 80px;text-align:center;">
+    <h2 class="display-heading" style="font-size:clamp(2rem,3vw,3.2rem);margin-bottom:16px">Ready to list your home?</h2>
+    <p style="color:var(--kw-text-gray);max-width:440px;margin:0 auto 40px;line-height:1.85;">Start with a no-obligation conversation. Julie will give you an honest assessment of what your home is worth today.</p>
+    <button class="btn-red" onclick="showPage('contact')">Request a Free Valuation</button>
+  </section>
+  <footer>
+    <div class="footer-logo-wrap"><div class="footer-kw-mark"><span class="footer-k">K</span><span class="footer-w">W</span></div><span class="footer-name"><em>Julie</em> Christensen</span></div>
+    <div class="footer-tagline">Keller Williams Realty</div>
+    <div class="footer-copy">&copy; 2025 Julie Christensen. All rights reserved.</div>
+  </footer>
+</div>
+
+<!-- BUYING -->
+<div id="page-buying" class="page page-wrap">
+  <section class="interior-hero">
+    <div>
+      <div class="interior-hero-eyebrow">Buying a Home</div>
+      <h1 class="display-heading-white">Find the home<br>you've been<br><em>waiting for.</em></h1>
+      <p class="interior-hero-sub">Julie listens carefully, searches strategically, and advocates fiercely — so you can buy with confidence in today's competitive market.</p>
+    </div>
+    <div>
+      <ul class="hero-feature-list">
+        <li>Personalized search based on your priorities</li>
+        <li>Deep knowledge of Chico &amp; Tri-Valley markets</li>
+        <li>Access to on-market and off-market listings</li>
+        <li>Strong negotiation in competitive situations</li>
+        <li>Guidance from first search to final walk-through</li>
+      </ul>
+    </div>
+  </section>
+  <div class="red-bar"></div>
+  <section class="content-section">
+    <div class="eyebrow">The Buying Journey</div>
+    <h2 class="display-heading section-h2" style="max-width:520px">Your path to homeownership, <em>step by step</em></h2>
+    <div class="buying-steps">
+      <div class="b-step"><div class="b-step-num">01</div><h3>Get Pre-Approved</h3><p>Before you search, know your budget. Julie connects you with trusted local lenders who can get you pre-approved quickly and confidently.</p></div>
+      <div class="b-step"><div class="b-step-num">02</div><h3>Define Your Search</h3><p>Julie takes time to understand what matters most — neighborhood, size, schools, commute, lifestyle — and builds your search around that.</p></div>
+      <div class="b-step"><div class="b-step-num">03</div><h3>Tour &amp; Evaluate</h3><p>Julie accompanies you to every showing, helping you spot opportunities and potential issues so you can evaluate every home clearly.</p></div>
+      <div class="b-step"><div class="b-step-num">04</div><h3>Offer &amp; Close</h3><p>When you find the one, Julie moves fast. She crafts compelling offers, negotiates skillfully, and guides you through inspections and closing.</p></div>
+    </div>
+  </section>
+  <section class="content-section-alt">
+    <div class="two-col-center">
+      <div>
+        <div class="eyebrow">Buyer Resources</div>
+        <h2 class="display-heading section-h2">Everything you need <em>in one place</em></h2>
+        <p class="section-p">Buying a home involves a lot of moving parts. Julie makes it easier with trusted resources, clear explanations, and a team of professionals she's worked with for years.</p>
+        <p class="section-p">Whether this is your first purchase or your fifth, Julie makes sure you never feel lost or pressured — only informed and supported.</p>
+        <button class="btn-red" onclick="showPage('contact')" style="margin-top:16px">Schedule a Buyer Consultation</button>
+      </div>
+      <div class="resource-list">
+        <div class="resource-item">Mortgage Pre-Approval Guide <span>&#8594;</span></div>
+        <div class="resource-item">Understanding the Offer Process <span>&#8594;</span></div>
+        <div class="resource-item">Home Inspection Checklist <span>&#8594;</span></div>
+        <div class="resource-item">What to Expect at Closing <span>&#8594;</span></div>
+        <div class="resource-item">First-Time Buyer Programs in California <span>&#8594;</span></div>
+        <div class="resource-item">Chico &amp; Tri-Valley Market Reports <span>&#8594;</span></div>
+      </div>
+    </div>
+  </section>
+  <section style="padding:80px;text-align:center;">
+    <h2 class="display-heading" style="font-size:clamp(2rem,3vw,3.2rem);margin-bottom:16px">Let's find your home.</h2>
+    <p style="color:var(--kw-text-gray);max-width:440px;margin:0 auto 40px;line-height:1.85;">Start with a free buyer consultation. Julie will walk you through the process, your budget, and what's available in your target market right now.</p>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+      <button class="btn-red" onclick="showPage('contact')">Book a Consultation</button>
+      <button class="btn-outline-dark" onclick="showPage('properties-chico')">Browse Properties</button>
+    </div>
+  </section>
+  <footer>
+    <div class="footer-logo-wrap"><div class="footer-kw-mark"><span class="footer-k">K</span><span class="footer-w">W</span></div><span class="footer-name"><em>Julie</em> Christensen</span></div>
+    <div class="footer-tagline">Keller Williams Realty</div>
+    <div class="footer-copy">&copy; 2025 Julie Christensen. All rights reserved.</div>
+  </footer>
+</div>
+
+<!-- PROPERTIES CHICO -->
+<div id="page-properties-chico" class="page page-wrap">
+  <section class="properties-hero">
+    <div class="eyebrow-center">Properties</div>
+    <h1 class="display-heading-white">Homes in <em>Chico, CA</em></h1>
+    <p>Explore available listings in Chico and surrounding Butte County communities.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+      <button class="btn-red">Chico, CA</button>
+      <button class="btn-outline-white" onclick="showPage('properties-trivalley')">Tri-Valley Area</button>
+    </div>
+  </section>
+  <div class="red-bar"></div>
+  <section class="prop-section">
+    <div class="prop-intro">
+      <h2 class="display-heading" style="font-size:clamp(1.8rem,2.5vw,2.6rem);margin-bottom:14px">Current Chico Listings</h2>
+      <p>Julie works with buyers and sellers across Chico, Forest Ranch, Paradise, Orland, and surrounding communities. Search live MLS listings below.</p>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         ✦  iHOMEFINDER IDX WIDGET — CHICO, CA
+         ───────────────────────────────────────────────────────────────────
+         SETUP INSTRUCTIONS FOR JULIE:
+         1. Sign up at ihomefinder.com and select the CRMLS Northern CA feed
+         2. In your iHomefinder dashboard, go to Widgets → Property Search
+         3. Configure a search pre-filtered to Chico / Butte County
+         4. Copy the embed script snippet (looks like the example below)
+         5. Replace the placeholder div and comment block with your snippet
+
+         EXAMPLE of what your iHomefinder embed will look like:
+         <script src="https://www.ihomefinder.com/widget/[YOUR-WIDGET-ID].js"></script>
+         <div id="ihf-[YOUR-WIDGET-ID]"></div>
+
+         Questions? iHomefinder support: 1-888-682-2219 / support@ihomefinder.com
+    ═══════════════════════════════════════════════════════════════════ -->
+    <div class="idx-placeholder">
+      <div class="idx-placeholder-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </div>
+      <h3>Live MLS Search — Coming Soon</h3>
+      <p>This section will display live Chico, CA listings powered by <strong>iHomefinder</strong> (CRMLS Northern California feed). Once Julie's account is set up, replace this block with the iHomefinder widget embed code.</p>
+      <div class="idx-steps">
+        <div class="idx-step"><span class="idx-step-num">1</span>Sign up at <strong>ihomefinder.com</strong></div>
+        <div class="idx-step"><span class="idx-step-num">2</span>Select <strong>CRMLS Central Coast &amp; Northern CA</strong> feed</div>
+        <div class="idx-step"><span class="idx-step-num">3</span>Create a widget pre-filtered to <strong>Chico / Butte County</strong></div>
+        <div class="idx-step"><span class="idx-step-num">4</span>Paste the embed code here, replacing this placeholder</div>
+      </div>
+      <button class="btn-red" onclick="window.open('https://www.ihomefinder.com','_blank')">Set Up iHomefinder &#8594;</button>
+    </div>
+
+    <div class="area-info-grid" style="margin-top:60px;">
+      <div class="area-info-card"><h3>About Chico, CA</h3><p>Chico is a vibrant Northern California city known for its tree-lined streets, California State University, and strong community spirit. Situated in Butte County, it offers an affordable alternative to Bay Area prices with a high quality of life.</p><ul class="area-highlights"><li>Home to CSU Chico &amp; a thriving arts scene</li><li>Bidwell Park — one of the largest city-owned parks in the US</li><li>Strong local dining, breweries &amp; farmers markets</li><li>Easy access to Sacramento &amp; the Sierra Nevada</li></ul></div>
+      <div class="area-info-card"><h3>Chico Market Snapshot</h3><p>The Chico real estate market remains active with steady demand from both local buyers and those relocating from higher-cost California metros. Inventory has been tight in recent years, making experienced guidance essential.</p><ul class="area-highlights"><li>Median home price: ~$430,000&#8211;$480,000</li><li>Strong demand in historic Avenues neighborhoods</li><li>Growth in outlying communities like Forest Ranch</li><li>Julie has served Chico buyers &amp; sellers for 10+ years</li></ul></div>
+    </div>
+  </section>
+  <section style="background:var(--kw-off-white);padding:72px 80px;text-align:center;">
+    <h2 class="display-heading" style="font-size:clamp(2rem,3vw,3rem);margin-bottom:16px">Don't see what you're looking for?</h2>
+    <p style="color:var(--kw-text-gray);max-width:440px;margin:0 auto 36px;line-height:1.85;">Julie has access to off-market listings and upcoming inventory. Tell her what you're searching for.</p>
+    <button class="btn-red" onclick="showPage('contact')">Get in Touch</button>
+  </section>
+  <footer>
+    <div class="footer-logo-wrap"><div class="footer-kw-mark"><span class="footer-k">K</span><span class="footer-w">W</span></div><span class="footer-name"><em>Julie</em> Christensen</span></div>
+    <div class="footer-tagline">Keller Williams Realty</div>
+    <div class="footer-copy">&copy; 2025 Julie Christensen. All rights reserved.</div>
+  </footer>
+</div>
+
+<!-- PROPERTIES TRI-VALLEY -->
+<div id="page-properties-trivalley" class="page page-wrap">
+  <section class="properties-hero">
+    <div class="eyebrow-center">Properties</div>
+    <h1 class="display-heading-white">Homes in the <em>Tri-Valley Area</em></h1>
+    <p>Explore listings across Dublin, Pleasanton, Livermore, San Ramon, and Danville.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+      <button class="btn-outline-white" onclick="showPage('properties-chico')">Chico, CA</button>
+      <button class="btn-red">Tri-Valley Area</button>
+    </div>
+  </section>
+  <div class="red-bar"></div>
+  <section class="prop-section">
+    <div class="prop-intro">
+      <h2 class="display-heading" style="font-size:clamp(1.8rem,2.5vw,2.6rem);margin-bottom:14px">Current Tri-Valley Listings</h2>
+      <p>Julie serves buyers and sellers throughout the Tri-Valley, including Dublin, Pleasanton, Livermore, San Ramon, and Danville. Search live MLS listings below.</p>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         ✦  iHOMEFINDER IDX WIDGET — TRI-VALLEY, CA
+         ───────────────────────────────────────────────────────────────────
+         SETUP INSTRUCTIONS FOR JULIE:
+         1. Sign up at ihomefinder.com and select the CRMLS Northern CA feed
+         2. In your iHomefinder dashboard, go to Widgets → Property Search
+         3. Configure a search pre-filtered to: Dublin, Pleasanton, Livermore,
+            San Ramon, Danville
+         4. Copy the embed script snippet (looks like the example below)
+         5. Replace the placeholder div and comment block with your snippet
+
+         EXAMPLE of what your iHomefinder embed will look like:
+         <script src="https://www.ihomefinder.com/widget/[YOUR-WIDGET-ID].js"></script>
+         <div id="ihf-[YOUR-WIDGET-ID]"></div>
+
+         NOTE: Confirm with iHomefinder that Alameda & Contra Costa Counties
+         are covered under the Northern CA CRMLS feed before activating.
+         Questions? iHomefinder support: 1-888-682-2219 / support@ihomefinder.com
+    ═══════════════════════════════════════════════════════════════════ -->
+    <div class="idx-placeholder">
+      <div class="idx-placeholder-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </div>
+      <h3>Live MLS Search — Coming Soon</h3>
+      <p>This section will display live Tri-Valley listings powered by <strong>iHomefinder</strong> (CRMLS Northern California feed). Once Julie's account is set up, replace this block with the iHomefinder widget embed code.</p>
+      <div class="idx-steps">
+        <div class="idx-step"><span class="idx-step-num">1</span>Sign up at <strong>ihomefinder.com</strong></div>
+        <div class="idx-step"><span class="idx-step-num">2</span>Select <strong>CRMLS Central Coast &amp; Northern CA</strong> feed</div>
+        <div class="idx-step"><span class="idx-step-num">3</span>Create a widget pre-filtered to <strong>Dublin, Pleasanton, Livermore, San Ramon, Danville</strong></div>
+        <div class="idx-step"><span class="idx-step-num">4</span>Paste the embed code here, replacing this placeholder</div>
+      </div>
+      <button class="btn-red" onclick="window.open('https://www.ihomefinder.com','_blank')">Set Up iHomefinder &#8594;</button>
+    </div>
+
+    <div class="area-info-grid" style="margin-top:60px;">
+      <div class="area-info-card"><h3>About the Tri-Valley</h3><p>The Tri-Valley — spanning Dublin, Pleasanton, Livermore, San Ramon, and Danville — is one of the most sought-after regions in the Bay Area. Known for top-rated schools, family-friendly communities, and more space than the peninsula.</p><ul class="area-highlights"><li>Top-ranked public schools in California</li><li>BART access to San Francisco &amp; Oakland</li><li>Livermore Valley wine country</li><li>Tech corridor with proximity to major employers</li></ul></div>
+      <div class="area-info-card"><h3>Tri-Valley Market Snapshot</h3><p>The Tri-Valley remains one of the most competitive real estate markets in the Bay Area. Demand consistently outpaces supply, particularly for single-family homes in top school districts. Experienced representation is crucial.</p><ul class="area-highlights"><li>Median home prices range from $950K&#8211;$1.6M+</li><li>Multiple-offer situations remain common</li><li>Dublin among the fastest-growing cities in CA</li><li>Julie brings sharp Bay Area market strategy</li></ul></div>
+    </div>
+  </section>
+  <section style="background:var(--kw-off-white);padding:72px 80px;text-align:center;">
+    <h2 class="display-heading" style="font-size:clamp(2rem,3vw,3rem);margin-bottom:16px">Looking for something specific?</h2>
+    <p style="color:var(--kw-text-gray);max-width:440px;margin:0 auto 36px;line-height:1.85;">The best Tri-Valley homes move fast. Let Julie alert you the moment the right property hits the market.</p>
+    <button class="btn-red" onclick="showPage('contact')">Get Property Alerts</button>
+  </section>
+  <footer>
+    <div class="footer-logo-wrap"><div class="footer-kw-mark"><span class="footer-k">K</span><span class="footer-w">W</span></div><span class="footer-name"><em>Julie</em> Christensen</span></div>
+    <div class="footer-tagline">Keller Williams Realty</div>
+    <div class="footer-copy">&copy; 2025 Julie Christensen. All rights reserved.</div>
+  </footer>
+</div>
+
+<!-- ABOUT JULIE -->
+<div id="page-about-julie" class="page page-wrap">
+  <section class="about-hero">
+    <div class="about-hero-img">
+      <div class="about-name-overlay"><h2>Julie<br>Christensen</h2><span>Realtor &middot; Keller Williams</span></div>
+    </div>
+    <div class="about-hero-text">
+      <div class="eyebrow">About Julie</div>
+      <h1 class="display-heading" style="font-size:clamp(2rem,3vw,3.4rem);margin-bottom:28px">Dedicated to the people <em>behind every transaction</em></h1>
+      <p>Julie Christensen didn't get into real estate to close deals — she got into it to help people. After years of watching family and friends navigate one of life's most stressful decisions without adequate support, she decided to become the agent she wished they'd had.</p>
+      <p>Today, Julie serves clients across two distinct and beloved California markets: the warm, community-driven city of Chico, and the dynamic, opportunity-rich Tri-Valley Area. Her ability to work fluidly in both regions is rare — and a meaningful advantage for clients who are relocating, investing, or simply looking for someone who truly understands the landscape.</p>
+      <p>As a Keller Williams agent, Julie has access to world-class technology, marketing tools, and a global referral network. But what defines her practice is simpler: she shows up, she listens, and she doesn't stop working until her clients are taken care of.</p>
+      <div class="kw-badge" style="margin-top:14px;"><div class="kw-badge-mark"><span class="kw-badge-k">K</span><span class="kw-badge-w">W</span></div><span class="kw-badge-text">Keller Williams Realty</span></div>
+    </div>
+  </section>
+  <div class="red-bar"></div>
+  <section class="about-values">
+    <div class="eyebrow-center">What Julie Believes</div>
+    <h2 class="display-heading" style="font-size:clamp(2rem,2.8vw,3rem);text-align:center;margin-bottom:8px">The values behind <em>the work</em></h2>
+    <div class="values-grid">
+      <div class="value-card"><div class="value-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><h3>Honesty First</h3><p>Julie tells you what you need to hear, not what you want to hear. That candor builds trust — and better outcomes for every client.</p></div>
+      <div class="value-card"><div class="value-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><h3>People Over Deals</h3><p>Every transaction represents a major life moment. Julie treats it with the care, patience, and respect that moment deserves.</p></div>
+      <div class="value-card"><div class="value-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div><h3>Responsive &amp; Reliable</h3><p>Real estate moves fast. Julie keeps you informed at every step and is always reachable when timing matters most.</p></div>
+      <div class="value-card"><div class="value-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><h3>Community Roots</h3><p>Julie is deeply connected to both Chico and the Tri-Valley — not just as markets, but as communities where real people build real lives.</p></div>
+    </div>
+  </section>
+  <section style="padding:80px;text-align:center;">
+    <h2 class="display-heading" style="font-size:clamp(2rem,3vw,3.2rem);margin-bottom:16px">Ready to work together?</h2>
+    <p style="color:var(--kw-text-gray);max-width:440px;margin:0 auto 40px;line-height:1.85;">Whether you're buying, selling, or just starting to think about your next move — Julie would love to connect.</p>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+      <button class="btn-red" onclick="showPage('contact')">Contact Julie</button>
+      <button class="btn-outline-dark" onclick="showPage('meet-team')">Meet the Team</button>
+    </div>
+  </section>
+  <footer>
+    <div class="footer-logo-wrap"><div class="footer-kw-mark"><span class="footer-k">K</span><span class="footer-w">W</span></div><span class="footer-name"><em>Julie</em> Christensen</span></div>
+    <div class="footer-tagline">Keller Williams Realty</div>
+    <div class="footer-copy">&copy; 2025 Julie Christensen. All rights reserved.</div>
+  </footer>
+</div>
+
+<!-- MEET THE TEAM -->
+<div id="page-meet-team" class="page page-wrap">
+  <section class="team-hero">
+    <div class="eyebrow-center" style="position:relative;z-index:1;">The People Behind the Work</div>
+    <h1 class="display-heading-white">Meet the <em>team</em></h1>
+    <p>Julie leads a close-knit group of real estate professionals committed to delivering an exceptional experience for every client.</p>
+  </section>
+  <div class="red-bar"></div>
+  <section class="team-section">
+    <div class="team-lead">
+      <div class="team-lead-photo"></div>
+      <div class="team-lead-text">
+        <h2>Julie Christensen</h2>
+        <span class="team-role">Lead Agent &middot; Keller Williams</span>
+        <p>Julie founded her team with a simple belief: real estate should feel human. With over a decade of experience in both Chico and the Tri-Valley, she brings unmatched local knowledge, sharp negotiation skills, and a genuine passion for helping clients find their place in the world.</p>
+        <p>Julie holds [Your Certifications Here] and is an active member of [Local Association]. She is deeply invested in the communities where she works and lives.</p>
+        <div class="kw-badge" style="margin-top:14px;"><div class="kw-badge-mark"><span class="kw-badge-k">K</span><span class="kw-badge-w">W</span></div><span class="kw-badge-text">Keller Williams Realty &middot; DRE #[XXXXXXX]</span></div>
+      </div>
+    </div>
+    <div class="eyebrow">Supporting Team</div>
+    <h2 class="display-heading" style="font-size:clamp(1.8rem,2.5vw,2.6rem);margin-bottom:48px">People you can count on</h2>
+    <div class="team-grid">
+      <div class="team-card"><div class="team-card-photo tcp-1"></div><div class="team-card-info"><h3>[Team Member Name]</h3><span class="team-role" style="font-size:0.7rem;display:block;margin-bottom:0;">Transaction Coordinator</span><p>Keeps every deal on track from contract to close — managing deadlines, documents, and communication so nothing slips through the cracks.</p></div></div>
+      <div class="team-card"><div class="team-card-photo tcp-2"></div><div class="team-card-info"><h3>[Team Member Name]</h3><span class="team-role" style="font-size:0.7rem;display:block;margin-bottom:0;">Buyer's Specialist</span><p>Works closely with buyers to identify the right properties, coordinate showings, and provide expert guidance throughout the purchasing process.</p></div></div>
+      <div class="team-card"><div class="team-card-photo tcp-3"></div><div class="team-card-info"><h3>[Team Member Name]</h3><span class="team-role" style="font-size:0.7rem;display:block;margin-bottom:0;">Marketing &amp; Listings</span><p>Handles professional photography coordination, listing presentation, social media, and the digital marketing strategy that gets homes noticed.</p></div></div>
+    </div>
+  </section>
+  <section style="background:var(--kw-off-white);padding:80px;text-align:center;">
+    <h2 class="display-heading" style="font-size:clamp(2rem,3vw,3rem);margin-bottom:16px">A team that works <em>for you.</em></h2>
+    <p style="color:var(--kw-text-gray);max-width:440px;margin:0 auto 40px;line-height:1.85;">Every member of Julie's team shares the same commitment to your experience. When you work with Julie, you get the whole team in your corner.</p>
+    <button class="btn-red" onclick="showPage('contact')">Work With Us</button>
+  </section>
+  <footer>
+    <div class="footer-logo-wrap"><div class="footer-kw-mark"><span class="footer-k">K</span><span class="footer-w">W</span></div><span class="footer-name"><em>Julie</em> Christensen</span></div>
+    <div class="footer-tagline">Keller Williams Realty</div>
+    <div class="footer-copy">&copy; 2025 Julie Christensen. All rights reserved.</div>
+  </footer>
+</div>
+
+<!-- CONTACT -->
+<div id="page-contact" class="page page-wrap">
+  <section class="contact-hero">
+    <div class="eyebrow" style="color:var(--kw-red)">Get in Touch</div>
+    <h1 class="display-heading-white">Let's start the <em>conversation.</em></h1>
+    <p>Whether you're ready to list, just starting your search, or somewhere in between — Julie would love to hear from you.</p>
+  </section>
+  <div class="contact-body">
+    <div class="contact-sidebar">
+      <h2>Contact Julie</h2>
+      <div class="contact-details">
+        <div class="contact-detail"><div class="c-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.59 3.47 2 2 0 0 1 3.56 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.77a16 16 0 0 0 6.29 6.29l.88-.88a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div><div><div class="c-label">Phone</div><div class="c-val"><a href="tel:+15555555555">(555) 555-5555</a></div></div></div>
+        <div class="contact-detail"><div class="c-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div><div><div class="c-label">Email</div><div class="c-val"><a href="mailto:julie@juliechristensen.com">julie@juliechristensen.com</a></div></div></div>
+        <div class="contact-detail"><div class="c-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div><div class="c-label">Markets Served</div><div class="c-val">Chico, CA &middot; Tri-Valley, CA</div></div></div>
+      </div>
+      <div class="offices">
+        <h3>Keller Williams Offices</h3>
+        <div class="office"><div class="office-name">Chico Office</div><div class="office-addr">Keller Williams Realty<br>[Street Address]<br>Chico, CA [ZIP]</div></div>
+        <div class="office"><div class="office-name">Tri-Valley Office</div><div class="office-addr">Keller Williams Realty<br>[Street Address]<br>[City], CA [ZIP]</div></div>
+      </div>
+    </div>
+    <div class="contact-form-area">
+      <h2>Send a Message</h2>
+      <div class="cf">
+        <div class="cf-row">
+          <div class="cf-group"><label>First Name</label><input type="text" placeholder="Your first name"/></div>
+          <div class="cf-group"><label>Last Name</label><input type="text" placeholder="Your last name"/></div>
         </div>
-    </section>
-    <section id="about">
-        <h2>About Julie</h2>
-        <p>About Julie information...</p>
-    </section>
-    <section id="team">
-        <h2>Meet the Team</h2>
-        <p>Team member details...</p>
-    </section>
-    <section id="contact">
-        <h2>Contact</h2>
-        <form>
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required><br>
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required><br>
-            <input type="submit" value="Submit">
-        </form>
-    </section>
-    <footer>
-        <p>&copy; 2026 Julie Christensen - Keller Williams All Rights Reserved</p>
-    </footer>
-    <script>
-        // JavaScript for multi-page navigation and toggle functionality...
-    </script>
+        <div class="cf-row">
+          <div class="cf-group"><label>Email</label><input type="email" placeholder="your@email.com"/></div>
+          <div class="cf-group"><label>Phone</label><input type="tel" placeholder="(555) 000-0000"/></div>
+        </div>
+        <div class="cf-group"><label>I'm interested in</label><select><option value="">Select one...</option><option>Buying a home in Chico</option><option>Selling a home in Chico</option><option>Buying a home in the Tri-Valley</option><option>Selling a home in the Tri-Valley</option><option>General inquiry</option></select></div>
+        <div class="cf-group"><label>Message</label><textarea placeholder="Tell Julie a bit about what you're looking for or what questions you have..."></textarea></div>
+        <button class="btn-red">Send Message</button>
+      </div>
+    </div>
+  </div>
+  <footer>
+    <div class="footer-logo-wrap"><div class="footer-kw-mark"><span class="footer-k">K</span><span class="footer-w">W</span></div><span class="footer-name"><em>Julie</em> Christensen</span></div>
+    <div class="footer-tagline">Keller Williams Realty</div>
+    <div class="footer-copy">&copy; 2025 Julie Christensen. All rights reserved.</div>
+  </footer>
+</div>
+<script>
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  var t = document.getElementById('page-' + id);
+  if (t) { t.classList.add('active'); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+}
+function toggleMobileMenu() {
+  var nav = document.getElementById('nav-center');
+  var btn = document.getElementById('hamburger');
+  var overlay = document.getElementById('mobile-overlay');
+  var isOpen = nav.classList.toggle('open');
+  btn.classList.toggle('open', isOpen);
+  overlay.classList.toggle('visible', isOpen);
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+}
+function closeMobileMenu() {
+  document.getElementById('nav-center').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
+  document.getElementById('mobile-overlay').classList.remove('visible');
+  document.body.style.overflow = '';
+  document.querySelectorAll('.mobile-accordion').forEach(function(i){ i.classList.remove('accordion-open'); });
+}
+function toggleAccordion(el) {
+  if (window.innerWidth > 900) return;
+  var item = el.closest('.nav-item');
+  var wasOpen = item.classList.contains('accordion-open');
+  document.querySelectorAll('.mobile-accordion').forEach(function(i){ i.classList.remove('accordion-open'); });
+  if (!wasOpen) item.classList.add('accordion-open');
+}
+window.addEventListener('resize', function(){ if (window.innerWidth > 900) closeMobileMenu(); });
+</script>
 </body>
 </html>
