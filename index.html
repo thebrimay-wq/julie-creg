@@ -961,11 +961,65 @@ footer { background: var(--kw-black); padding: 44px 80px; display: flex; align-i
   </footer>
 </div>
 <script>
-function showPage(id) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+var PAGE_SLUGS = {
+  'home':                  '/',
+  'selling':               '/selling',
+  'buying':                '/buying',
+  'properties-chico':      '/properties-chico',
+  'properties-trivalley':  '/properties-trivalley',
+  'about-julie':           '/about-julie',
+  'meet-team':             '/meet-team',
+  'contact':               '/contact'
+};
+var PAGE_TITLES = {
+  'home':                  'Julie Christensen | Keller Williams Real Estate',
+  'selling':               'Selling | Julie Christensen Real Estate',
+  'buying':                'Buying | Julie Christensen Real Estate',
+  'properties-chico':      'Chico, CA Properties | Julie Christensen Real Estate',
+  'properties-trivalley':  'Tri-Valley Properties | Julie Christensen Real Estate',
+  'about-julie':           'About Julie | Julie Christensen Real Estate',
+  'meet-team':             'Meet the Team | Julie Christensen Real Estate',
+  'contact':               'Contact Us | Julie Christensen Real Estate'
+};
+var SLUG_PAGES = {};
+Object.keys(PAGE_SLUGS).forEach(function(id) { SLUG_PAGES[PAGE_SLUGS[id]] = id; });
+
+function showPage(id, pushState) {
+  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
   var t = document.getElementById('page-' + id);
-  if (t) { t.classList.add('active'); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+  if (t) {
+    t.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    var slug = PAGE_SLUGS[id] || '/';
+    var title = PAGE_TITLES[id] || document.title;
+    document.title = title;
+    if (pushState !== false) {
+      history.pushState({ page: id }, title, slug);
+    }
+  }
 }
+window.addEventListener('popstate', function(e) {
+  var id = (e.state && e.state.page) ? e.state.page : pageFromPath(window.location.pathname);
+  showPage(id, false);
+});
+function pageFromPath(path) {
+  var normalized = path.replace(/\/$/, '') || '/';
+  return SLUG_PAGES[normalized] || 'home';
+}
+(function() {
+  var path = window.location.pathname;
+  var params = new URLSearchParams(window.location.search);
+  var redirect = params.get('p');
+  if (redirect) {
+    path = redirect;
+    history.replaceState(null, '', redirect || '/');
+  }
+  var id = pageFromPath(path);
+  var slug = PAGE_SLUGS[id] || '/';
+  var title = PAGE_TITLES[id] || document.title;
+  showPage(id, false);
+  history.replaceState({ page: id }, title, slug);
+})();
 function toggleMobileMenu() {
   var nav = document.getElementById('nav-center');
   var btn = document.getElementById('hamburger');
